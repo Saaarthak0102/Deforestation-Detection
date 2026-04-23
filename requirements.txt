@@ -1,6 +1,5 @@
 streamlit
 numpy
-opencv-python
+opencv-python-headless
 Pillow
 matplotlib
-cv2
