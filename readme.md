@@ -2,8 +2,6 @@
 
 A Digital Image Processing (DIP) project that detects and quantifies deforestation by comparing before/after satellite or aerial images using classical computer vision techniques.
 
-**Author:** Sarthak Sabharwal · Roll No. 2401020234
-
 ---
 
 ## 📌 About the Project
