@@ -87,14 +87,17 @@ h1, h2, h3 { font-family: 'Space Mono', monospace !important; color: #c8f5a0 !im
 
 .section-header {
     font-family: 'Space Mono', monospace;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
+    font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #4a6b3a;
-    border-bottom: 1px solid #1e3318;
-    padding-bottom: 0.5rem;
-    margin-bottom: 1rem;
-    margin-top: 1.5rem;
+    color: #8acc70;
+    border-bottom: 1px solid #2d5222;
+    padding: 0 0 0.55rem 0;
+    margin: 1.55rem 0 1rem 0;
+    line-height: 1.2;
+    display: block;
+    width: 100%;
 }
 
 .info-box {
@@ -367,7 +370,7 @@ if img_before is not None and img_after is not None:
     classification_text = final_classification(deforestation_pct, area_changed_pct, gray_delta)
 
     # ── change percentage ──
-    st.markdown('<div class="section-header">Change percentage</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Change Percentage</div>', unsafe_allow_html=True)
     m1, m2, m3, m4 = st.columns(4)
 
     def metric_html(label, value, cls=""):
@@ -378,7 +381,7 @@ if img_before is not None and img_after is not None:
     with m3: st.markdown(metric_html("Forest loss status", status_text, status_class), unsafe_allow_html=True)
     with m4: st.markdown(metric_html("Final classification", classification_text, "good"), unsafe_allow_html=True)
 
-    st.markdown('<div class="section-header">Original images</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Original Images</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     with c1:
         st.image(img_before, caption="Before image", width=420)
@@ -392,14 +395,14 @@ if img_before is not None and img_after is not None:
     with c2:
         st.image(norm_after, caption="Normalized after", width=420)
 
-    st.markdown('<div class="section-header">Gaussian blur</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Gaussian Blur</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     with c1:
         st.image(gauss_before, caption="Gaussian blurred before", width=420)
     with c2:
         st.image(gauss_after, caption="Gaussian blurred after", width=420)
 
-    st.markdown('<div class="section-header">Image difference</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Image Difference</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
 
     with c1:
@@ -414,7 +417,7 @@ if img_before is not None and img_after is not None:
     with c2:
         st.image((diff_map * 255).astype(np.uint8), caption="Difference intensity", width=420, clamp=True)
 
-    st.markdown('<div class="section-header">Grayscale conversion</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Grayscale Conversion</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     with c1:
         st.image(gray_before, caption="Grayscale before", width=420, clamp=True)
@@ -459,13 +462,13 @@ if img_before is not None and img_after is not None:
     st.markdown('<div class="section-header">Thresholding</div>', unsafe_allow_html=True)
     st.image(change_bin, caption="Binary change mask", width=420, clamp=True)
 
-    st.markdown('<div class="section-header">Contour detection</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Contour Detection</div>', unsafe_allow_html=True)
     st.markdown(f'<div class="info-box">Contours detected: <b>{len(contours)}</b> regions</div>', unsafe_allow_html=True)
 
-    st.markdown('<div class="section-header">Highlight changed regions</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Highlight Changed Regions</div>', unsafe_allow_html=True)
     st.image(contour_overlay, caption="Contour-based highlighted changes", width=600)
 
-    st.markdown('<div class="section-header">Final classification</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Final Classification</div>', unsafe_allow_html=True)
     st.markdown(
         f'<div class="info-box">Final Deforestation Detected: <b>{deforestation_pct:.1f}%</b><br>'
         f'Status: <b>{status_text}</b> · System Output: <b>{classification_text}</b><br>'
@@ -473,14 +476,14 @@ if img_before is not None and img_after is not None:
         unsafe_allow_html=True
     )
 
-    st.markdown('<div class="section-header">Comparison view</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Comparison View</div>', unsafe_allow_html=True)
     c1, c2 = st.columns(2)
     with c1:
         st.image(img_before, caption="Before", width=420)
     with c2:
         st.image(contour_overlay, caption="After with contour highlights", width=420)
 
-    st.markdown('<div class="section-header">Final conclusion</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Final Conclusion</div>', unsafe_allow_html=True)
     st.markdown(
         f'<div class="info-box">Final Deforestation Detected: <b>{deforestation_pct:.1f}%</b>. '
         f'Area Changed: <b>{area_changed_pct:.1f}%</b>. '
