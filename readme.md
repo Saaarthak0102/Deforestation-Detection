@@ -26,6 +26,7 @@ Input Images → Normalize → Gaussian Blur → Grayscale → Difference Map �
 | **Gaussian Blur** | Applies a 5×5 Gaussian filter (σ=1.0) to reduce noise |
 | **Grayscale Conversion** | Converts to single-channel for pixel-wise subtraction |
 | **Difference Map** | Computes absolute pixel difference between before and after |
+| **Histogram Analysis** | Helps compare pixel intensity distribution |
 | **Thresholding** | Creates a binary change mask using the 82nd-percentile threshold |
 | **Contour Detection** | Detects and filters contours of changed regions (min area: 40px) |
 | **Classification** | Classifies output as *Deforestation Detected*, *Reforestation Detected*, or *No Significant Change* |
