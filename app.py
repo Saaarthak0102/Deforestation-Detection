@@ -255,13 +255,26 @@ def find_image_pairs(base_path):
     return pairs
 
 
+def resolve_existing_folder(*candidates):
+    for candidate in candidates:
+        if os.path.isdir(candidate):
+            return candidate
+    return None
+
+
 def find_data_pairs(base_path="dataset"):
     data_pairs = []
-    class_def = os.path.join(base_path, "deforestation")
-    class_non = os.path.join(base_path, "no_deforestation")
+    class_def = resolve_existing_folder(
+        os.path.join(base_path, "deforestation"),
+        os.path.join(base_path, "deforestation "),
+    )
+    class_non = resolve_existing_folder(
+        os.path.join(base_path, "no_deforestation"),
+        os.path.join(base_path, "no deforestation"),
+    )
     extensions = ["*.jpg", "*.jpeg", "*.png", "*.tif", "*.tiff"]
 
-    if os.path.isdir(class_def) and os.path.isdir(class_non):
+    if class_def and class_non:
         def_files, non_files = [], []
         for ext in extensions:
             def_files += glob.glob(os.path.join(class_def, ext))
@@ -302,7 +315,7 @@ if mode == "Upload manually":
 
 else:
     if not pairs:
-        st.warning("No paired images found in dataset/. Add images in dataset/deforestation and dataset/no_deforestation, or upload manually.")
+        st.warning("No paired images found in dataset/. Add images in dataset/deforestation and dataset/no_deforestation or dataset/no deforestation, or upload manually.")
     else:
         named_options = ["Data 1", "Data 2", "Data 3"]
         available_count = min(len(pairs), len(named_options))
@@ -407,6 +420,41 @@ if img_before is not None and img_after is not None:
         st.image(gray_before, caption="Grayscale before", width=420, clamp=True)
     with c2:
         st.image(gray_after, caption="Grayscale after", width=420, clamp=True)
+
+    st.markdown('<div class="section-header">Histogram Analysis</div>', unsafe_allow_html=True)
+
+    c1, c2 = st.columns(2)
+
+    with c1:
+        fig, ax = plt.subplots(figsize=(5, 4), facecolor="#0a0f0a")
+        ax.hist(gray_before.ravel(), bins=256, range=[0, 256])
+        ax.set_title("Histogram - Before Image", color="#c8f5a0", fontsize=10)
+        ax.set_xlabel("Pixel Intensity", color="#8acc70")
+        ax.set_ylabel("Frequency", color="#8acc70")
+        ax.tick_params(colors="#8acc70")
+        fig.tight_layout()
+        st.pyplot(fig)
+        plt.close()
+
+    with c2:
+        fig, ax = plt.subplots(figsize=(5, 4), facecolor="#0a0f0a")
+        ax.hist(gray_after.ravel(), bins=256, range=[0, 256])
+        ax.set_title("Histogram - After Image", color="#c8f5a0", fontsize=10)
+        ax.set_xlabel("Pixel Intensity", color="#8acc70")
+        ax.set_ylabel("Frequency", color="#8acc70")
+        ax.tick_params(colors="#8acc70")
+        fig.tight_layout()
+        st.pyplot(fig)
+        plt.close()
+
+    st.markdown(
+        '<div class="info-box">'
+        'Histogram analysis helps compare pixel intensity distribution in BEFORE and AFTER images. '
+        'A visible shift in histogram peaks indicates vegetation loss and land surface change, '
+        'supporting deforestation detection results.'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
     st.markdown('<div class="section-header">Thresholding</div>', unsafe_allow_html=True)
     st.image(change_bin, caption="Binary change mask", width=420, clamp=True)
